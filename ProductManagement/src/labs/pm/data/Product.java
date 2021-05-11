@@ -41,10 +41,10 @@ public class Product {
      */
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
 
-    private int id;
-    private String name;
-    private BigDecimal price;
-    private Rating rating;
+    private final int id;
+    private final String name;
+    private final BigDecimal price;
+    private final Rating rating;
 
     public Product() {
         this(0, "no name", BigDecimal.ZERO);
@@ -65,32 +65,20 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public Rating getRating() {
         return rating;
     }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    
+    public Product applyRating(Rating rating) {
+        return new Product(id, name, price, rating);
     }
 
     /**
