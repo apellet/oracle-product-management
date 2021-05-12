@@ -16,6 +16,7 @@
  */
 package labs.pm.app;
 
+import labs.pm.data.ProductManager;
 import labs.pm.data.Product;
 import labs.pm.data.Drink;
 import labs.pm.data.Food;
@@ -35,11 +36,13 @@ public class Shop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Product p1 = new Drink(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        Product p2 = new Drink(102, "Coffee", BigDecimal.valueOf(1.50), Rating.FOUR_STAR);
+        ProductManager pm = new ProductManager();
         
-        Product p3 = new Food(103, "Cake", BigDecimal.valueOf(2.30), Rating.FIVE_STAR,
-                LocalDate.now().plusDays(2));
+        Product p1 = pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        Product p2 = pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.50), Rating.FOUR_STAR);
+        
+        Product p3 = pm.createProduct(103, "Cake", BigDecimal.valueOf(2.30),
+                Rating.FIVE_STAR, LocalDate.now().plusDays(2));
         
         Product p4 = p3.applyRating(Rating.THREE_STAR);
         
