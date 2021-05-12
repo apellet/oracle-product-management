@@ -33,7 +33,7 @@ import java.util.Objects;
  * @author apellet
  * @version 4.0
  */
-public abstract class Product {
+public abstract class Product implements Rateable<Product> {
 
     /**
      * A constant that defines a {@link java.math.BigDecimal BigDecimal} value
@@ -55,8 +55,6 @@ public abstract class Product {
         this.rating = rating;
     }
     
-    public abstract Product applyRating(Rating rating);
-    
     public LocalDate getBestBefore() {
         return LocalDate.now();
     }
@@ -73,6 +71,7 @@ public abstract class Product {
         return price;
     }
 
+    @Override
     public Rating getRating() {
         return rating;
     }
