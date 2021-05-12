@@ -18,8 +18,6 @@ package labs.pm.app;
 
 import labs.pm.data.ProductManager;
 import labs.pm.data.Product;
-import labs.pm.data.Drink;
-import labs.pm.data.Food;
 import labs.pm.data.Rating;
 import java.math.BigDecimal;
 import java.time.LocalDate;
