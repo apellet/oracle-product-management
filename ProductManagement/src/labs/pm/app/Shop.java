@@ -20,7 +20,7 @@ import labs.pm.data.ProductManager;
 import labs.pm.data.Product;
 import labs.pm.data.Rating;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  * {@code Shop} class represents an application that manages Products.
@@ -34,22 +34,16 @@ public class Shop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ProductManager pm = new ProductManager();
+        ProductManager pm = new ProductManager(Locale.CANADA);
         
         Product p1 = pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.printProductReport();
+        
+        p1 = pm.reviewProduct(p1, Rating.FOUR_STAR, "Some lovely tea");
+        pm.printProductReport();
+        
         Product p2 = pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.50), Rating.FOUR_STAR);
-        
-        Product p3 = pm.createProduct(103, "Cake", BigDecimal.valueOf(2.30),
-                Rating.FIVE_STAR, LocalDate.now().plusDays(2));
-        
-        Product p4 = p3.applyRating(Rating.THREE_STAR);
-        
-        System.out.println(p1);
-        System.out.println(p2);
-        System.out.println(p3);
-        System.out.println(p4);
-        
-        System.out.println(p2.getBestBefore());
-        System.out.println(p3.getBestBefore());
+        p2 = pm.reviewProduct(p2, Rating.FIVE_STAR, "A nice cup of Joe");
+        pm.printProductReport();  
     }
 }
