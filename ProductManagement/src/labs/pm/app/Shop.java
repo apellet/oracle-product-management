@@ -20,6 +20,7 @@ import labs.pm.data.ProductManager;
 import labs.pm.data.Product;
 import labs.pm.data.Rating;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Locale;
 
 /**
@@ -37,12 +38,24 @@ public class Shop {
         ProductManager pm = new ProductManager(Locale.CANADA);
         
         Product p1 = pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        pm.printProductReport();
+        pm.reviewProduct(101, Rating.FOUR_STAR, "Nice hot cup of tea");
+        pm.reviewProduct(101, Rating.TWO_STAR, "Rather weak Tea");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "Fine tea");
+        pm.reviewProduct(101, Rating.FOUR_STAR, "Good tea");
+        pm.reviewProduct(101, Rating.FIVE_STAR, "Perfect tea");
+        pm.reviewProduct(101, Rating.THREE_STAR, "just add some lemon");
+        pm.printProductReport(101);
         
-        p1 = pm.reviewProduct(p1, Rating.FOUR_STAR, "Some lovely tea");
-        p1 = pm.reviewProduct(p1, Rating.ONE_STAR, "Rather weak tea");
-        p1 = pm.reviewProduct(p1, Rating.THREE_STAR, "Fine tea");
-        p1 = pm.reviewProduct(p1, Rating.FIVE_STAR, "Perfect tea");
-        pm.printProductReport();
+        Product p2 = pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.reviewProduct(102, Rating.THREE_STAR, "Coffee was ok");
+        pm.reviewProduct(102, Rating.ONE_STAR, "Where is the milk?!?");
+        pm.reviewProduct(102, Rating.FIVE_STAR, "It's perfect with ten spoons of sugar");
+        pm.printProductReport(102);
+        
+        Product p3 = pm.createProduct(103, "Cake", BigDecimal.valueOf(3.99), Rating.NOT_RATED, LocalDate.now().plusDays(2));
+        pm.reviewProduct(103, Rating.FIVE_STAR, "Very nice cake");
+        pm.reviewProduct(103, Rating.FOUR_STAR, "It good, but I've expected more chocolate");
+        pm.reviewProduct(103, Rating.FIVE_STAR, "This cake is perfect");
+        pm.printProductReport(103);
     }
 }
