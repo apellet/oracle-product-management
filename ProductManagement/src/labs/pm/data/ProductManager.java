@@ -103,6 +103,7 @@ public class ProductManager {
         txt.append('\n');
         
         List<Review> reviews = products.get(product);
+        Collections.sort(reviews);
         
         for (Review review : reviews) {
             txt.append(MessageFormat.format(resources.getString("review"),
