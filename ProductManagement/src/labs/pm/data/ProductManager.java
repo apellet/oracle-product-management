@@ -33,6 +33,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Factory methods for creating Drink and Food objects.
@@ -44,6 +46,9 @@ public class ProductManager {
             Map.of("en-GB", new ResourceFormatter(Locale.UK),
                    "en-US", new ResourceFormatter(Locale.US),
                    "fr-FR", new ResourceFormatter(Locale.FRANCE));
+    
+    private static final Logger logger =
+            Logger.getLogger(ProductManager.class.getName());
     
     public static Set<String> getSupportedLocales() {
         return formatters.keySet();
@@ -78,7 +83,13 @@ public class ProductManager {
     }
     
     public Product reviewProduct(int id, Rating rating, String comments) {
-        return reviewProduct(findProduct(id), rating, comments);
+        try {
+            return reviewProduct(findProduct(id), rating, comments);
+        } catch (ProductManagerException e) {
+            logger.log(Level.INFO, e.getMessage());
+        }
+        
+        return null;
     }
     
     public Product reviewProduct(Product product, Rating rating, String comments) {
@@ -98,7 +109,11 @@ public class ProductManager {
     }
     
     public void printProductReport(int id) {
-        printProductReport(findProduct(id));
+        try {
+            printProductReport(findProduct(id));
+        } catch (ProductManagerException e) {
+            logger.log(Level.INFO, e.getMessage());
+        }
     }
     
     public void printProductReport(Product product) {
@@ -134,12 +149,13 @@ public class ProductManager {
         System.out.println(txt);
     }
     
-    public Product findProduct(int id) {
+    public Product findProduct(int id) throws ProductManagerException {
         return products.keySet()
                        .stream()
                        .filter(p -> p.getId() == id)
                        .findFirst()
-                       .orElseGet(() -> null);
+                       .orElseThrow(() -> 
+                               new ProductManagerException("Product with id " + id + " not found"));
     }
     
     public void changeLocale(String languageTag) {
