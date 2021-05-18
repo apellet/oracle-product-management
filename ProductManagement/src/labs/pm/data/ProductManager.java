@@ -47,7 +47,8 @@ public class ProductManager {
     private static Map<String, ResourceFormatter> formatters =
             Map.of("en-GB", new ResourceFormatter(Locale.UK),
                    "en-US", new ResourceFormatter(Locale.US),
-                   "fr-FR", new ResourceFormatter(Locale.FRANCE));
+                   "fr-FR", new ResourceFormatter(Locale.FRANCE),
+                   "en-CA", new ResourceFormatter(Locale.CANADA));
     
     private static final Logger logger =
             Logger.getLogger(ProductManager.class.getName());
