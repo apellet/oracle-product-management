@@ -17,7 +17,6 @@
 package labs.pm.app;
 
 import labs.pm.data.ProductManager;
-import java.util.Locale;
 
 /**
  * {@code Shop} class represents an application that manages Products.
@@ -33,8 +32,8 @@ public class Shop {
     public static void main(String[] args) {
         ProductManager pm = ProductManager.getInstance();
         
-        pm.printProductReport(101, "en-CA");
-        pm.printProductReport(102, "en-CA");
-        pm.printProductReport(103, "en-CA");
+        pm.printProductReport(101, "en-CA", "1");
+        pm.printProductReport(102, "en-CA", "1");
+        pm.printProductReport(103, "en-CA", "1");
     }
 }
