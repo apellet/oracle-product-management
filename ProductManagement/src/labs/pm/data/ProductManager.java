@@ -48,12 +48,9 @@ import java.util.stream.Collectors;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-/**
- * Factory methods for creating Drink and Food objects.
- * 
- * @author apellet
- */
 public class ProductManager {
+    private static final ProductManager pm = new ProductManager();
+    
     private static Map<String, ResourceFormatter> formatters =
             Map.of("en-GB", new ResourceFormatter(Locale.UK),
                    "en-US", new ResourceFormatter(Locale.US),
@@ -67,9 +64,11 @@ public class ProductManager {
         return formatters.keySet();
     }
     
-    private Map<Product, List<Review>> products = new HashMap<>();
+    public static ProductManager getInstance() {
+        return pm;
+    }
     
-    private ResourceFormatter formatter;
+    private Map<Product, List<Review>> products = new HashMap<>();
     
     private ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
     
@@ -83,12 +82,7 @@ public class ProductManager {
     private Path dataFolder = Path.of(config.getString("data.folder"));
     private Path tempFolder = Path.of(config.getString("temp.folder"));
     
-    public ProductManager(Locale locale) {
-        this(locale.toLanguageTag());
-    }
-
-    public ProductManager(String languageTag) {
-        changeLocale(languageTag);
+    private ProductManager() {
         loadAllData();
     }
     
@@ -134,9 +128,9 @@ public class ProductManager {
         return product;
     }
     
-    public void printProductReport(int id) {
+    public void printProductReport(int id, String languageTag) {
         try {
-            printProductReport(findProduct(id));
+            printProductReport(findProduct(id), languageTag);
         } catch (ProductManagerException e) {
             logger.log(Level.INFO, e.getMessage());
         } catch (IOException e) {
@@ -144,7 +138,10 @@ public class ProductManager {
         }
     }
     
-    public void printProductReport(Product product) throws IOException {
+    public void printProductReport(Product product, String languageTag) throws IOException {
+        ResourceFormatter formatter =
+                formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+        
         Path productFile = reportsFolder.resolve(
                 MessageFormat.format(config.getString("report.file"),
                                      product.getId()));
@@ -170,7 +167,11 @@ public class ProductManager {
         }
     }
     
-    public void printProducts(Predicate<Product> filter, Comparator<Product> sorter) {
+    public void printProducts(Predicate<Product> filter, Comparator<Product> sorter,
+                              String languageTag) {
+        ResourceFormatter formatter =
+                formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+        
         StringBuilder txt = new StringBuilder();
         
         products.keySet()
@@ -234,12 +235,11 @@ public class ProductManager {
                        .orElseThrow(() -> 
                                new ProductManagerException("Product with id " + id + " not found"));
     }
-    
-    public void changeLocale(String languageTag) {
-        formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
-    }
-    
-    public Map<String, String> getDiscount() {
+        
+    public Map<String, String> getDiscount(String languageTag) {
+        ResourceFormatter formatter =
+                formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+        
         return products.keySet().stream()
                 .collect(Collectors.groupingBy(
                         p -> p.getRating().getStars(),

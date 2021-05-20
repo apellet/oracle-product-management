@@ -31,10 +31,10 @@ public class Shop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ProductManager pm = new ProductManager(Locale.CANADA);
+        ProductManager pm = ProductManager.getInstance();
         
-        pm.printProductReport(101);
-        pm.printProductReport(102);
-        pm.printProductReport(103);
+        pm.printProductReport(101, "en-CA");
+        pm.printProductReport(102, "en-CA");
+        pm.printProductReport(103, "en-CA");
     }
 }
