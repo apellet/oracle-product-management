@@ -292,7 +292,7 @@ public class ProductManager {
                     .collect(Collectors.groupingBy(
                             p -> p.getRating().getStars(),
                             Collectors.collectingAndThen(
-                                    Collectors.summarizingDouble(p -> p.getDiscount().doubleValue()), 
+                                    Collectors.summingDouble(p -> p.getDiscount().doubleValue()), 
                                     d -> formatter.moneyFormat.format(d))));
         } finally {
             readLock.unlock();
